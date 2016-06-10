@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components;
+namespace dersonsena\commonClasses\components\grid;
 
 use Yii;
 use yii\grid\ActionColumn;

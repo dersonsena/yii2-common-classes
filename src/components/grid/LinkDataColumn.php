@@ -1,8 +1,8 @@
 <?php
 
-namespace app\common\components;
+namespace dersonsena\commonClasses\components\grid;
 
-use app\common\model\ModelBase;
+use dersonsena\commonClasses\ModelBase;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 

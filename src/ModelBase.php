@@ -1,11 +1,9 @@
 <?php
 
-namespace app\common\model;
+namespace dersonsena\commonClasses;
 
-use app\common\components\behaviors\ClientesIdBehavior;
 use Yii;
-use app\common\components\behaviors\DbAttributesFilterBehavior;
-use app\common\components\behaviors\UserInsUpdBehavior;
+use dersonsena\commonClasses\behaviors\DbAttributesFilterBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -87,9 +85,6 @@ abstract class ModelBase extends ActiveRecord
         return [
             [
                 'class' => DbAttributesFilterBehavior::className(),
-            ],
-            [
-                'class' => ClientesIdBehavior::className()
             ],
             [
                 'class' => TimestampBehavior::className(),

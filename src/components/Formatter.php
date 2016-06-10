@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components;
+namespace dersonsena\commonClasses\components;
 
 use RuntimeException;
 use yii\helpers\Html;

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\common\components\behaviors;
+namespace dersonsena\commonClasses\behaviors;
 
-use app\common\components\Formatter;
 use Yii;
+use dersonsena\commonClasses\components\Formatter;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\db\ActiveRecord;

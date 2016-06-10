@@ -1,8 +1,8 @@
 <?php
 
-namespace app\common\components;
+namespace dersonsena\commonClasses;
 
-class Utils
+final class Utils
 {
     /**
      * Metodo que converte um valor dados em bytes para: KB, MB ou GB

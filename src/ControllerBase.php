@@ -1,9 +1,9 @@
 <?php
 
-namespace app\common\controller;
+namespace dersonsena\commonClasses;
 
 use Yii;
-use app\common\components\Formatter;
+use dersonsena\commonClasses\components\Formatter;
 use OutOfBoundsException;
 use yii\helpers\Url;
 use yii\web\Controller;
