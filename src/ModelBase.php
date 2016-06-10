@@ -53,12 +53,12 @@ abstract class ModelBase extends ActiveRecord
     /**
      * @var string Nome da coluna que representa o created_by
      */
-    private $createdByAttribute = 'user_ins_id';
+    private $createdByAttribute = 'created_by';
 
     /**
      * @var string Nome da coluna que representa o updated_by
      */
-    private $updatedByAttribute = 'user_upd_id';
+    private $updatedByAttribute = 'updated_by';
 
     /**
      * @inheritdoc
@@ -72,7 +72,7 @@ abstract class ModelBase extends ActiveRecord
     public static function find()
     {
         if(array_key_exists('deleted', static::getTableSchema()->columns))
-            return parent::find()->onCondition(static::tableName() . '.deleted = ' . Yii::$app->params['inactive']);
+            return parent::find()->onCondition(static::tableName() . '.deleted = 0');
         else
             return parent::find();
     }
@@ -114,7 +114,7 @@ abstract class ModelBase extends ActiveRecord
                     ->orderBy(!is_null($order) ? $order : $labelColumn . ' ASC');
 
         if(array_key_exists('status', $this->attributes))
-            $query->where(['status'=>Yii::$app->params['active']]);
+            $query->where(['status' => 1]);
 
         return ArrayHelper::map($query->all(), $keyColumn, $labelColumn);
     }

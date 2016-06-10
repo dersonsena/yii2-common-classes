@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->context->actionDescription;
 ?>
 
 <div class="user-create">
-    <?= $this->render("@frontend/views/{$this->context->id}/_form", [
+    <?= $this->render("/{$this->context->id}/_form", [
         'model' => $model,
     ]) ?>
 </div>

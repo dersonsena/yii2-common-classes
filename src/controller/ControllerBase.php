@@ -1,10 +1,13 @@
 <?php
 
-namespace dersonsena\commonClasses;
+namespace dersonsena\commonClasses\controller;
 
 use Yii;
+use dersonsena\userModule\models\User;
 use dersonsena\commonClasses\components\Formatter;
 use OutOfBoundsException;
+use yii\base\UserException;
+use yii\bootstrap\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -25,6 +28,41 @@ abstract class ControllerBase extends Controller
     public function init()
     {
         parent::init();
+        Yii::setAlias('@common-classes', '@vendor/dersonsena/yii2-common-classes');
+
+        Yii::$app->params['pagination']['pageSize'] = 25;
+
+        Yii::$app->params['maskMoneyOptions'] = [
+            'prefix' => 'R$ ',
+            'suffix' => '',
+            'affixesStay' => true,
+            'thousands' => '.',
+            'decimal' => ',',
+            'precision' => 2,
+            'allowZero' => false,
+            'allowNegative' => false,
+        ];
+
+        Yii::$app->params['defaultAddons'] = [
+            'money' => [
+                'prepend' => ['content' => '<i class="fa fa-money" aria-hidden="true"></i>']
+            ],
+            'url' => [
+                'prepend' => ['content' => 'http://']
+            ],
+            'email' => [
+                'prepend' => ['content' => Html::icon('envelope')]
+            ],
+            'phone' => [
+                'prepend' => ['content' => Html::icon('phone-alt')]
+            ],
+            'date' => [
+                'prepend' => ['content' => Html::icon('calendar')]
+            ],
+            'time' => [
+                'prepend' => ['content' => Html::icon('time')]
+            ]
+        ];
     }
 
     public function actions()
@@ -61,6 +99,19 @@ abstract class ControllerBase extends Controller
     public function getUser()
     {
         return Yii::$app->getUser();
+    }
+
+    /**
+     * Metodo que retorna o Objeto do usuario atualmente logado
+     * @return User
+     * @throws UserException
+     */
+    public function getUserIdentity()
+    {
+        if($this->getUser()->isGuest)
+            throw new UserException('Não foi possível pegar informações do Usuário. Usuário não autenticado.');
+
+        return $this->getUser()->getIdentity();
     }
 
     /**
@@ -116,8 +167,8 @@ abstract class ControllerBase extends Controller
     public static function getStatus($status=null)
     {
         $list = [
-            Yii::$app->params['active'] => 'Ativo',
-            Yii::$app->params['inactive'] => 'Inativo'
+            1 => 'Ativo',
+            0 => 'Inativo'
         ];
 
         if(!is_null($status) && !isset($list[$status]))
@@ -138,7 +189,7 @@ abstract class ControllerBase extends Controller
         if(!isset($list[$status]))
             throw new OutOfBoundsException("Não foi encontrado código do status '{$status}'.");
 
-        if($status == Yii::$app->params['active']) {
+        if($status == 1) {
 
             $params = [
                 'cssClass' => 'label-success',

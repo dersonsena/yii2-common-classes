@@ -2,7 +2,7 @@
 
 namespace dersonsena\commonClasses\components\grid;
 
-use dersonsena\commonClasses\ControllerBase;
+use dersonsena\commonClasses\controller\ControllerBase;
 use dersonsena\commonClasses\ModelBase;
 use yii\grid\DataColumn;
 
