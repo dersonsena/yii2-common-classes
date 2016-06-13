@@ -3,6 +3,7 @@
 namespace dersonsena\commonClasses\controller;
 
 use Yii;
+use dersonsena\commonClasses\TranslationTrait;
 use dersonsena\userModule\models\User;
 use dersonsena\commonClasses\components\Formatter;
 use OutOfBoundsException;
@@ -13,20 +14,27 @@ use yii\web\Controller;
 
 abstract class ControllerBase extends Controller
 {
+    use TranslationTrait;
+
     public $layout = '/main';
 
     /**
      * @var string
      */
-    public $controllerDescription = 'NO CONTROLLER DESCRIPTION';
+    public $controllerDescription;
 
     /**
      * @var string
      */
-    public $actionDescription = 'NO ACTION DESCRIPTION';
+    public $actionDescription;
 
     public function init()
     {
+        $dir = Yii::getAlias('@vendor/dersonsena/yii2-common-classes/src');
+        $this->initI18N($dir, 'common');
+        $this->controllerDescription = Yii::t('common', 'NO CONTROLLER DESCRIPTION');
+        $this->actionDescription = Yii::t('common', 'NO ACTION DESCRIPTION');
+
         parent::init();
         Yii::setAlias('@common-classes', '@vendor/dersonsena/yii2-common-classes');
 
@@ -109,7 +117,7 @@ abstract class ControllerBase extends Controller
     public function getUserIdentity()
     {
         if($this->getUser()->isGuest)
-            throw new UserException('Não foi possível pegar informações do Usuário. Usuário não autenticado.');
+            throw new UserException(Yii::t('common', 'User not auth'));
 
         return $this->getUser()->getIdentity();
     }
@@ -167,12 +175,12 @@ abstract class ControllerBase extends Controller
     public static function getStatus($status=null)
     {
         $list = [
-            1 => 'Ativo',
-            0 => 'Inativo'
+            1 => Yii::t('common', 'Active'),
+            0 => Yii::t('common', 'Inactive')
         ];
 
         if(!is_null($status) && !isset($list[$status]))
-            throw new OutOfBoundsException("Não foi encontrado código do status '{$status}'.");
+            throw new OutOfBoundsException(Yii::t('common', 'No status code was found {statusCode}', ['statusCode' => $status]));
 
         return (is_null($status) ? $list : $list[$status]);
     }
@@ -187,13 +195,13 @@ abstract class ControllerBase extends Controller
         $list = self::getStatus();
 
         if(!isset($list[$status]))
-            throw new OutOfBoundsException("Não foi encontrado código do status '{$status}'.");
+            throw new OutOfBoundsException(Yii::t('common', 'No status code was found {statusCode}', ['statusCode' => $status]));
 
         if($status == 1) {
 
             $params = [
                 'cssClass' => 'label-success',
-                'label' => 'Sim',
+                'label' => Yii::t('common', 'Yes'),
                 'iconClass'=>'fa fa-check-circle'
             ];
 
@@ -201,7 +209,7 @@ abstract class ControllerBase extends Controller
 
             $params = [
                 'cssClass' => 'label-danger',
-                'label' => 'Não',
+                'label' => Yii::t('common', 'No'),
                 'iconClass'=>'glyphicon glyphicon-minus-sign'
             ];
 

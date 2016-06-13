@@ -16,7 +16,7 @@ class ActionGridColumn extends ActionColumn
     /**
      * @inheritdoc
      */
-    public $headerOptions = ['style' => 'width: 175px', 'class'=>'text-center'];
+    public $headerOptions = ['style' => 'width: 190px', 'class'=>'text-center'];
 
     /**
      * @inheritdoc
@@ -56,13 +56,13 @@ class ActionGridColumn extends ActionColumn
         $this->buttons['view'] = function ($url, $model, $key) {
 
             $options = array_merge([
-                'title' => Yii::t('yii', 'View'),
-                'aria-label' => Yii::t('yii', 'View'),
+                'title' => Yii::t('common', 'View'),
+                'aria-label' => Yii::t('common', 'View'),
                 'data-pjax' => '0',
                 'class' => 'btn btn-default btn-sm'
             ], $this->buttonOptions);
 
-            return Html::a('<span class="glyphicon glyphicon-eye-open"></span> Ver', $url, $options);
+            return Html::a('<span class="glyphicon glyphicon-eye-open"></span> ' . Yii::t('common', 'View Button'), $url, $options);
         };
     }
 
@@ -75,13 +75,13 @@ class ActionGridColumn extends ActionColumn
         $this->buttons['update'] = function ($url, $model, $key) {
 
             $options = array_merge([
-                'title' => Yii::t('yii', 'Update'),
-                'aria-label' => Yii::t('yii', 'Update'),
+                'title' => Yii::t('common', 'Update'),
+                'aria-label' => Yii::t('common', 'Update'),
                 'data-pjax' => '0',
                 'class' => 'btn btn-default btn-sm'
             ], $this->buttonOptions);
 
-            return Html::a('<span class="glyphicon glyphicon-pencil"></span> Editar', $url, $options);
+            return Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('common', 'Update Button'), $url, $options);
         };
     }
 
@@ -94,9 +94,9 @@ class ActionGridColumn extends ActionColumn
         $this->buttons['delete'] = function ($url, $model, $key) {
 
             $options = array_merge([
-                'title' => Yii::t('yii', 'Delete'),
-                'aria-label' => Yii::t('yii', 'Delete'),
-                'data-confirm' => 'Deseja realmente remover este registro?',
+                'title' => Yii::t('common', 'Delete'),
+                'aria-label' => Yii::t('common', 'Delete'),
+                'data-confirm' => Yii::t('common', 'Delete Confirm'),
                 'data-method' => 'post',
                 'data-pjax' => '0',
                 'class' => 'btn btn-danger btn-sm'

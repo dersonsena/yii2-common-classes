@@ -3,6 +3,7 @@
 namespace dersonsena\commonClasses\components\grid;
 
 use dersonsena\commonClasses\ModelBase;
+use Yii;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 
@@ -14,7 +15,7 @@ class LinkDataColumn extends DataColumn
 
         $this->content = function(ModelBase $model, $key, $index, DataColumn $column) {
             return Html::a($model->{$column->attribute}, ['view', 'id'=>$model->primaryKey], [
-                'title' => 'Visualizar este registro'
+                'title' => Yii::t('common', 'View')
             ]);
         };
     }

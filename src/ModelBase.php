@@ -15,30 +15,37 @@ use yii\helpers\ArrayHelper;
  */
 abstract class ModelBase extends ActiveRecord
 {
+    use TranslationTrait;
+
     /**
      * @var string Label para as colunas ID
      */
-    protected $idLabel = 'ID';
+    protected $idLabel;
 
     /**
      * @var string Label para as colunas created_at
      */
-    protected $createdAtLabel = 'Data de Criação';
+    protected $createdAtLabel;
 
     /**
      * @var string Label para as colunas updated_at
      */
-    protected $updateAtLabel = 'Última Atualização';
+    protected $updateAtLabel;
 
     /**
      * @var string Label para as colunas user_ins_id
      */
-    protected $userInsIdLabel = 'Usuário que Criou';
+    protected $userInsIdLabel;
+
+    /**
+     * @var string Label para as colunas user_upd_id
+     */
+    protected $userUpdIdLabel;
 
     /**
      * @var string Label oara os status
      */
-    protected $statusLabel = 'Registro Ativo';
+    protected $statusLabel;
 
     /**
      * @var string Nome da coluna que representa o created_at
@@ -66,7 +73,18 @@ abstract class ModelBase extends ActiveRecord
     public function init()
     {
         $this->loadDefaultValues();
-        return parent::init();
+
+        $dir = Yii::getAlias('@vendor/dersonsena/yii2-common-classes/src');
+        $this->initI18N($dir, 'common');
+        
+        $this->idLabel = Yii::t('common', 'ID');
+        $this->createdAtLabel = Yii::t('common', 'Created At');
+        $this->updateAtLabel = Yii::t('common', 'Updated At');
+        $this->userInsIdLabel = Yii::t('common', 'Created By');
+        $this->userUpdIdLabel = Yii::t('common', 'Updated By');
+        $this->statusLabel = Yii::t('common', 'Active');
+
+        parent::init();
     }
 
     public static function find()

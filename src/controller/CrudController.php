@@ -50,25 +50,25 @@ abstract class CrudController extends ControllerBase
      * Atributo que guarda a descricao padrao para action index
      * @var string
      */
-    protected $indexActionDescription = 'Listagem de Dados';
+    protected $indexActionDescription;
 
     /**
      * Atributo que guarda a descricao padrao para action view
      * @var string
      */
-    protected $viewActionDescription = 'Visualizar Detalhes';
+    protected $viewActionDescription;
 
     /**
      * Atributo que guarda a descricao padrao para action create
      * @var string
      */
-    protected $createActionDescription = 'Novo Registro';
+    protected $createActionDescription;
 
     /**
      * Atributo que guarda a descricao padrao para action update
      * @var string
      */
-    protected $updateActionDescription = 'Atualizando Registro';
+    protected $updateActionDescription;
 
     /**
      * @var string Nome do atributo para caso a action precise fazer
@@ -94,6 +94,11 @@ abstract class CrudController extends ControllerBase
     {
         $this->model = $this->getModel();
         $this->modelSearch = $this->getModelSearch();
+        $this->indexActionDescription = Yii::t('common', 'Index Action Description');
+        $this->viewActionDescription = Yii::t('common', 'View Action Description');
+        $this->createActionDescription = Yii::t('common', 'Create Action Description');
+        $this->updateActionDescription = Yii::t('common', 'Update Action Description');
+
         parent::init();
     }
 
@@ -194,8 +199,8 @@ abstract class CrudController extends ControllerBase
 
         $this->getSession()->setFlash('growl', [
             'type' => 'success',
-            'title' => 'Tudo certo!',
-            'message' => 'O registro foi removido com sucesso!'
+            'title' => Yii::t('common', 'All right!'),
+            'message' => Yii::t('common', 'The record was successfully removed!')
         ]);
 
         return $this->redirect(['index']);
@@ -224,23 +229,26 @@ abstract class CrudController extends ControllerBase
     {
         try {
 
-            if (!$this->model->save())
-                throw new Exception('Houve um erro ao salvar o registro.');
+            if (!$this->model->save()) {
+                throw new Exception(Yii::t('common', 'There was an error saving the record. Details: {error}', [
+                    'error' => $this->model->getErrorsToString()
+                ]));
+            }
 
             $this->getSession()->setFlash('growl', [
                 'type' => 'success',
-                'title' => 'Tudo certo!',
-                'message' => 'Seus dados foram gravados com sucesso!'
+                'title' => Yii::t('common', 'All right!'),
+                'message' => Yii::t('common', 'Your data has been successfully saved!')
             ]);
 
-            if (!is_null($this->getRequest()->post('save-and-continue'))) {
+            if (!is_null($this->getRequest()->post('save-and-continue')))
                 return $this->refresh();
-            } else {
+            else
                 return $this->redirect(['index']);
-            }
 
         } catch(Exception $e) {
-            $this->getSession()->setFlash('error', '<strong style="font-size: 1.5em">Opsss... Um erro aconteceu!</strong>' . $e->getMessage());
+            $errorText = Yii::t('common', 'Oppss... Error!');
+            $this->getSession()->setFlash('error', '<strong style="font-size: 1.5em">'. $errorText .'</strong>' . $e->getMessage());
             return $this->redirect([$this->action->id]);
         }
     }
