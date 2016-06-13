@@ -1,7 +1,6 @@
 {
   "name": "dersonsena/yii2-common-classes",
   "description": "Classes base, utilitários para utilização nos meus projetos pessoais e nas extensões prontas.",
-  "version" : "1.0.0",
   "keywords": [
     "yii2",
     "common-classes"
